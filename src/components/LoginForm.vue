@@ -41,6 +41,7 @@
 </script>
 
 <template>
+    <!-- pas réussi à faire apparaitre les cartes au login / pas réussi à login -->
     <!-- <div id="login-form" v-if="loggedIn === false"> -->
     <div id="login-form">
         <form>
