@@ -1,13 +1,15 @@
 <template>
     <div id="search-film">
-      <form>
+      <form @submit.prevent="searchFilms">
         <label for="search">Rechercher :</label>
-        <input id="search" type="text">
+        <input id="search" type="text" v-model="query">
       </form>
+
+      <h2>Nombre de résultats trouvés pour <b>{{ query }}</b>: {{ numberResults }}</h2>
   
-      <ul class="films" v-if="loggedIn === true">
+      <ul class="films">
         <!-- Liste films -->
-        <li class="film card" v-for="film in films">
+        <li class="film card" v-for="film in filterResults">
             <img class="poster" :src="film.poster" />
             <p class="title">
             {{ film.title }}
@@ -35,7 +37,30 @@
   export default {
     data(){
       return {
-        films: [
+        films: []
+      }
+    },
+    computed: {
+      numberResults () {
+        return this.films.length
+      },
+      filterResults () {
+        return this.films.filter((film) => {
+            return film.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1
+        })
+      }
+    },
+    watch: {
+
+    },
+    methods: {
+      getStars(metascore) {
+        if (metascore === "N/A") return "";
+        let starsCount = Math.round(metascore / 20);
+        return "★".repeat(starsCount) + "☆".repeat(5 - starsCount);
+      },
+      searchFilms() {
+        this.films.push(
             {
                 title: 'Titanic',
                 released: '19 Dec 1997',
@@ -52,7 +77,7 @@
                 actors: 'Harrison Ford, Rutger Hauer, Sean Young, Edward James Olmos',
                 poster: 'https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg',
                 plot: 'A blade runner must pursue and terminate four replicants who stole a ship in space, and have returned to Earth to find their creator.',
-                metascore: '89'
+                metascore: '90'
             },
             {
                 title: 'The Shining',
@@ -62,21 +87,18 @@
                 poster: 'https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
                 plot: 'A family heads to an isolated hotel for the winter where an evil spiritual presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future.',
                 metascore: '63'
-            }
-        ]
-      }
-    },
-    methods: {
-      submitLogin() {
-        this.loggedIn = true;
-      },
-      getStars(metascore) {
-        if (metascore === "N/A") return "";
-        let score = parseInt(metascore);
-        let starsCount = Math.round(score / 20);
-        return "★".repeat(starsCount) + "☆".repeat(5 - starsCount);
-      }
-    }
+            },
+            {
+                title: 'Jurassic Park',
+                released: '11 Jun 1993',
+                director: 'Steven Spielberg',
+                actors: 'Sam Neill, Laura Dern, Jeff Goldblum, Richard Attenborough',
+                poster: 'https://m.media-amazon.com/images/I/71Bjk6uAcwL._AC_SL1500_@._V1_SX300.jpg',
+                plot: 'On the island of Isla Nublar, off Central America\'s Pacific Coast near Costa Rica, a wealthy businessman, John Hammond, and a team of genetic scientists have created a wildlife park of de-extinct dinosaurs. When industrial sabotage leads to a catastrophic shutdown of the park\'s power facilities and security precautions, a small group of visitors, including Hammond\'s grandchildren, struggle to survive and escape the now perilous island.',
+                metascore: '68'
+            },
+      )}
   }
+}
 </script>
   

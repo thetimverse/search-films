@@ -6,8 +6,8 @@ import SearchFilm from './components/SearchFilm.vue';
 
 <template>
   <LoginForm />
-  <hr>
-  <SearchFilm />
+  <!-- <hr>
+  <SearchFilm /> -->
 </template>
 
 <style scoped>
