@@ -1,25 +1,29 @@
 <script>
+import SearchFilm from './SearchFilm.vue';
+
   export default {
-    data(){
-      return {
-        title: 'Log in',
-        email: '',
-        password: '',
-        loggedIn: false,
-      }
+    data() {
+        return {
+            title: 'Log in',
+            email: '',
+            password: '',
+            loggedIn: false,
+        };
     },
     methods: {
-      submitLogin() {
-        this.loggedIn = true;
-      },
-      getStars(metascore) {
-        if (metascore === "N/A") return "";
-        let score = parseInt(metascore);
-        let starsCount = Math.round(score / 20);
-        return "★".repeat(starsCount) + "☆".repeat(5 - starsCount);
-      }
-    }
-  }
+        submitLogin() {
+            this.loggedIn = true;
+        },
+        getStars(metascore) {
+            if (metascore === "N/A")
+                return "";
+            let score = parseInt(metascore);
+            let starsCount = Math.round(score / 20);
+            return "★".repeat(starsCount) + "☆".repeat(5 - starsCount);
+        }
+    },
+    components: { SearchFilm }
+}
 </script>
 
 <template>
@@ -38,6 +42,11 @@
 
         <p><button type="submit">Log in</button></p>
         </form>
+    </div>
+
+    <div v-else>
+        <SearchFilm></SearchFilm>
+        <!-- <search-film></search-film> notation meilleure pour accessibilité et standards HTML-->
     </div>
 
 </template>
