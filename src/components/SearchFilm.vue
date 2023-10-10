@@ -2,66 +2,30 @@
     <div id="search-film">
       <form @submit.prevent="searchFilms">
         <label for="search">Rechercher :</label>
-        <input id="search" type="text" v-model="query">
+        <input id="search" type="text" v-model="query" ref="boutonrecherche">
       </form>
 
-      <h2>Nombre de résultats trouvés pour <b>{{ query }}</b>: {{ numberResults }}</h2>
+      <h2>Nombre de résultats trouvés pour <b>{{ query }}</b>: {{ filterResults.length }}</h2>
   
       <ul class="films">
         <!-- Liste films -->
-        <li class="film card" v-for="film in filterResults">
-            <img class="poster" :src="film.poster" />
-            <p class="title">
-            {{ film.title }}
-            <!-- <span class="rating" v-if="film.metascore <= 20 ">★</span>
-            <span class="rating" v-else-if="film.metascore >= 20 && film.metascore <= 40">★★</span>
-            <span class="rating" v-else-if="film.metascore >= 40 && film.metascore <= 60">★★★</span>
-            <span class="rating" v-else-if="film.metascore >= 60 && film.metascore <= 80">★★★★</span>
-            <span class="rating" v-else>★★★★★</span> -->
-            <span class="rating">{{ getStars(film.metascore) }}</span>
-            </p>
-            <dl>
-            <dt>Release date</dt><dd>{{ film.released }}</dd>
-            <dt>Director</dt><dd>{{ film.director }}</dd>
-            <dt>Actors</dt><dd>{{ film.actors }}</dd>
-            </dl>
-            <p class="plot">
-            {{ film.plot }}
-            </p>
-        </li>
+        <Film :film="film" v-for="film in filterResults" :key="film.title"></Film>
       </ul>
     </div>
 </template>
 
 <script>
+import Film from './Film.vue'
+
   export default {
+    mounted() {
+      this.$refs.boutonrecherche.focus()
+    },
     data(){
       return {
-        films: []
-      }
-    },
-    computed: {
-      numberResults () {
-        return this.films.length
-      },
-      filterResults () {
-        return this.films.filter((film) => {
-            return film.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1
-        })
-      }
-    },
-    watch: {
-
-    },
-    methods: {
-      getStars(metascore) {
-        if (metascore === "N/A") return "";
-        let starsCount = Math.round(metascore / 20);
-        return "★".repeat(starsCount) + "☆".repeat(5 - starsCount);
-      },
-      searchFilms() {
-        this.films.push(
-            {
+        query: '',
+        films: [
+        {
                 title: 'Titanic',
                 released: '19 Dec 1997',
                 director: 'James Cameron',
@@ -97,8 +61,27 @@
                 plot: 'On the island of Isla Nublar, off Central America\'s Pacific Coast near Costa Rica, a wealthy businessman, John Hammond, and a team of genetic scientists have created a wildlife park of de-extinct dinosaurs. When industrial sabotage leads to a catastrophic shutdown of the park\'s power facilities and security precautions, a small group of visitors, including Hammond\'s grandchildren, struggle to survive and escape the now perilous island.',
                 metascore: '68'
             },
-      )}
-  }
+        ]
+      }
+    },
+    computed: {
+      numberResults () {
+        return this.films.length
+      },
+      filterResults () {
+        if (this.query === '') return this.films;
+
+        return this.films.filter((film) => {
+            return film.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1 || film.plot.toLowerCase().indexOf(this.query.toLowerCase()) > -1
+
+        })
+      }
+    },
+    watch: {
+
+    },
+    components: { Film }
+
 }
 </script>
   
