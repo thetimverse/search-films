@@ -1,6 +1,5 @@
 <script >
 import LoginForm from '@/components/LoginForm.vue'
-import HelloWorld from './components/HelloWorld.vue';
 import SearchFilm from '@/components/SearchFilm.vue';
 import { useSession } from "@/stores/session"
 import { mapState, mapActions } from "pinia";
@@ -15,13 +14,20 @@ export default {
         // bind this.loggedIn to useSession().loggedIn
         ...mapState(useSession, ["loggedIn"])
     },
+    methods: {
+        ...mapActions(useSession, ["logout"])
+    }
 }
 </script>
 
 <template>
+
   <LoginForm v-if="!loggedIn" />
   
-  <SearchFilm v-else />
+  <div v-else>
+        <button @click="logout()">Log out</button>
+        <SearchFilm />
+    </div>
 </template>
 
 <style scoped>
