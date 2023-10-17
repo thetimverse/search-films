@@ -11,7 +11,7 @@ import { mapState, mapActions } from "pinia";
             title: 'Log in',
             email: '',
             password: '',
-            error: 'Email or password incorrect'
+            error: ''
         };
     },
     // computed: {
@@ -20,7 +20,10 @@ import { mapState, mapActions } from "pinia";
     methods: {
         submitLogin() {
             const session = useSession()
-            session.login({ mail: this.email, password: this.password });
+            const loginError = session.login({ mail: this.email, password: this.password });
+            if (loginError.error) {
+                this.error = loginError.errorMsg
+            }
         },
         getStars(metascore) {
             if (metascore === "N/A")
