@@ -1,6 +1,6 @@
 <script>
 import { useSession } from "@/stores/session"
-import { mapState, mapActions } from "pinia";
+// import { mapState, mapActions } from "pinia";
 
   export default {
     props: {
@@ -37,7 +37,6 @@ import { mapState, mapActions } from "pinia";
 </script>
 
 <template>
-    <h1>Letterboxd from Wish</h1>
     <!-- Formulaire connexion -->
     <!-- <div id="login-form" v-if="!loggedIn || loggedIn === false"> -->
     <div id="login-form">

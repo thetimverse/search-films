@@ -1,15 +1,15 @@
 <script >
-import LoginForm from '@/components/LoginForm.vue'
-import SearchFilm from '@/components/SearchFilm.vue';
+// import SearchFilm from '@/components/SearchFilm.vue';
 import { useSession } from "@/stores/session"
 import { mapState, mapActions } from "pinia";
+import { RouterLink, RouterView } from 'vue-router';
 
 export default {
     data() {
         return {
         };
     },
-    components: { LoginForm, SearchFilm },
+    // components: { SearchFilm },
     computed: {
         // bind this.loggedIn to useSession().loggedIn
         ...mapState(useSession, ["loggedIn"])
@@ -21,13 +21,16 @@ export default {
 </script>
 
 <template>
+    <nav>
+        <ul>
+            <li><RouterLink :to="{name: 'search'}">Films</RouterLink></li>
+            <li><RouterLink :to="{name: 'login'}">Login</RouterLink></li>
+        </ul>
+    </nav>
 
-  <LoginForm v-if="!loggedIn" />
-  
-  <div v-else>
-        <button @click="logout()">Log out</button>
-        <SearchFilm />
-    </div>
+    <h1>Letterboxd from Wish</h1>
+    <RouterView></RouterView>
+    <!-- <SearchFilm></SearchFilm> -->
 </template>
 
 <style scoped>

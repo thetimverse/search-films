@@ -9,13 +9,13 @@
   
       <ul class="films">
         <!-- Liste films -->
-        <Film :film="film" v-for="film in filterResults" :key="film.title"></Film>
+        <FilmCard :film="film" v-for="film in filterResults" :key="film.title"></FilmCard>
       </ul>
     </div>
 </template>
 
 <script>
-import Film from './Film.vue'
+import FilmCard from './FilmCard.vue'
 
   export default {
     mounted() {
@@ -80,7 +80,7 @@ import Film from './Film.vue'
     watch: {
 
     },
-    components: { Film }
+    components: { FilmCard }
 
 }
 </script>
