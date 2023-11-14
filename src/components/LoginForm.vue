@@ -23,6 +23,9 @@ import { useSession } from "@/stores/session"
             const loginError = session.login({ mail: this.email, password: this.password });
             if (loginError.error) {
                 this.error = loginError.errorMsg
+            } else {
+                // this.$router.push('/search')
+                this.$router.push("search") // cette méthode permet d'utiliser le nom de la route au lieu de l'url
             }
         },
         getStars(metascore) {

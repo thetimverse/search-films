@@ -1,5 +1,5 @@
 <script >
-// import SearchFilm from '@/components/SearchFilm.vue';
+import Header from '@/components/Header.vue';
 import { useSession } from "@/stores/session"
 import { mapState, mapActions } from "pinia";
 import { RouterLink, RouterView } from 'vue-router';
@@ -9,7 +9,7 @@ export default {
         return {
         };
     },
-    // components: { SearchFilm },
+    components: { Header },
     computed: {
         // bind this.loggedIn to useSession().loggedIn
         ...mapState(useSession, ["loggedIn"])
@@ -21,16 +21,10 @@ export default {
 </script>
 
 <template>
-    <nav>
-        <ul>
-            <li><RouterLink :to="{name: 'search'}">Films</RouterLink></li>
-            <li><RouterLink :to="{name: 'login'}">Login</RouterLink></li>
-        </ul>
-    </nav>
+    <Header></Header>
 
     <h1>Letterboxd from Wish</h1>
     <RouterView></RouterView>
-    <!-- <SearchFilm></SearchFilm> -->
 </template>
 
 <style scoped>
