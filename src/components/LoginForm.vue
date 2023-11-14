@@ -1,6 +1,8 @@
 <script>
 import { useSession } from "@/stores/session"
 // import { mapState, mapActions } from "pinia";
+import UserService from '@/vuejs-training-backend/src/services/UserService.js'
+
 
   export default {
     props: {
@@ -18,6 +20,33 @@ import { useSession } from "@/stores/session"
     //     ...mapState(useSession, ["loggedIn"])
     // },
     methods: {
+        async register () {
+            this.error = null;
+            try {
+                const response = await UserService.register({
+                email: this.email,
+                password: this.password,
+                firstname: 'John',
+                lastname: 'Smith'
+                })
+                const session = useSession();
+                session.login({ user: response.user, token: response.token });
+                this.$router.push('/search')
+            } catch (error) {
+                this.error = error.toString()
+            }
+        },
+        async login () {
+            this.error = null;
+            try {
+                const response = await UserService.login({ email: this.email, password: this.password })
+                const session = useSession();
+                session.login({ user: response.user, token: response.token });
+                this.$router.push('/search')
+            } catch (error) {
+                this.error = error.toString()
+            }
+        },
         submitLogin() {
             const session = useSession()
             const loginError = session.login({ mail: this.email, password: this.password });
