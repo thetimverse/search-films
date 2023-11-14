@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HeaderLogin from "@/components/HeaderLogin.vue"
+// import Header from "@/components/Header.vue"
+import LoginForm from "@/components/LoginForm.vue"
 import SearchFilm from "@/components/SearchFilm.vue"
+import { useSession } from '../stores/session';
 
 
 const router = createRouter({
@@ -9,7 +11,7 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: HeaderLogin
+      component: LoginForm
     },
     {
         path: "/search",
@@ -27,16 +29,20 @@ const router = createRouter({
   ]
 });
 
-// router.beforeEach(async (to, from) => {
-//   if (
-//     // make sure the user is authenticated
-//     !isAuthenticated &&
-//     // ❗️ Avoid an infinite redirect
-//     to.name !== 'login'
-//   ) {
-//     // redirect the user to the login page
-//     return { name: 'login' }
-//   }
-// })
+router.beforeEach(async (to, from) => {
+  const session = useSession()
+  if (
+    // make sure the user is authenticated
+    !session.loggedIn &&
+    // ❗️ Avoid an infinite redirect
+    to.name !== 'login'
+  ) {
+    // redirect the user to the login page
+    return { name: 'login' }
+  } else if (to.name === "login" && session.loggedIn) {
+    // redirect the user to the search page if already logged in
+    return { name: 'search' }
+  }
+})
 
 export default router;
