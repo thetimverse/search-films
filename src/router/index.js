@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import Header from "@/components/Header.vue"
 import LoginForm from "@/components/LoginForm.vue"
+import RegisterForm from "@/components/RegisterForm.vue"
 import SearchFilm from "@/components/SearchFilm.vue"
 import { useSession } from '../stores/session';
 
@@ -12,6 +13,11 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: LoginForm
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: RegisterForm
     },
     {
         path: "/search",
@@ -35,7 +41,8 @@ router.beforeEach(async (to, from) => {
     // make sure the user is authenticated
     !session.loggedIn &&
     // ❗️ Avoid an infinite redirect
-    to.name !== 'login'
+    to.name !== 'login' &&
+    to.name !== 'register'
   ) {
     // redirect the user to the login page
     return { name: 'login' }
