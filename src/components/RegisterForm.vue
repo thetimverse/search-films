@@ -16,39 +16,31 @@ import UserService from '@/services/UserService.js'
             error: ''
         };
     },
-    // computed: {
-    //     ...mapState(useSession, ["loggedIn"])
-    // },
     methods: {
-        async login () {
+        async register () {
             this.error = null;
             try {
-                const response = await UserService.login({ email: this.email, password: this.password })
+                const response = await UserService.register({
+                email: this.email,
+                password: this.password,
+                firstname: 'John',
+                lastname: 'Smith'
+                })
                 const session = useSession();
                 session.login({ user: response.user, token: response.token });
-                this.$router.push('/search')
+                this.$router.push('/login')
             } catch (error) {
                 this.error = error.toString()
             }
-        },
-        // submitLogin() {
-        //     const session = useSession()
-        //     const loginError = session.login({ mail: this.email, password: this.password });
-        //     if (loginError.error) {
-        //         this.error = loginError.errorMsg
-        //     } else {
-        //         // this.$router.push('/search')
-        //         this.$router.push("search") // cette méthode permet d'utiliser le nom de la route au lieu de l'url
-        //     }
-        // }
+        }
     }
 }
 </script>
 
 <template>
     <div id="login-form">
-        <form @submit.prevent="login">
-        <h2>Log in</h2>
+        <form @submit.prevent="register">
+        <h2>Register</h2>
         <hr>
 
         <label for="email"><b>Email</b></label>
@@ -57,18 +49,14 @@ import UserService from '@/services/UserService.js'
         <label for="psw"><b>Password</b></label>
         <input v-model="password" type="password" placeholder="Entrez votre mot de passe" id="psw" name="psw" required >
 
-        <p><button type="submit">Log in</button></p>
+        <p><button type="submit">Register</button></p>
         <p>{{ error }}</p>
         </form>
+
     </div>
-
+    
     <br>
-    <RouterLink :to="{name: 'register'}">Register</RouterLink>
-
-    <!-- <div v-else>
-        <SearchFilm></SearchFilm> -->
-        <!-- <search-film></search-film> notation meilleure pour accessibilité et standards HTML-->
-    <!-- </div> -->
+    <RouterLink :to="{name: 'login'}">Log in</RouterLink>
 
 </template>
 

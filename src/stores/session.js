@@ -10,7 +10,7 @@ export const useSession = defineStore('session', {
   },
   actions: {
     login( user ) {
-      if (user.mail === 'tim@pluot.com' && user.password === 'test1234') {
+      if (user.token) {
         this.loggedIn = true
         this.user = {
           mail: user.mail
