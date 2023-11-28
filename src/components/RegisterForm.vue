@@ -26,6 +26,7 @@ import UserService from '@/services/UserService.js'
                 firstname: 'John',
                 lastname: 'Smith'
                 })
+                // useSession permet de se connecter directement après inscription
                 const session = useSession();
                 session.login({ user: response.user, token: response.token });
                 this.$router.push('/login')
