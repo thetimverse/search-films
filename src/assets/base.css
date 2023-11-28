@@ -58,7 +58,7 @@ th, td { border: solid #dbdbdb; }
 
 /* Layout */
 
-body { margin: 1.5rem 15ch; }
+body { margin: 1.5rem 5%; }
 
 body > header { text-align: center; }
 
